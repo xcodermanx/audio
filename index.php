@@ -18,13 +18,18 @@ $models = [
 
 $voices = [
     'alloy' => 'Alloy',
-    'aria' => 'Aria',
     'ballad' => 'Ballad',
+    'echo' => 'Echo',
+    'fable' => 'Fable',
+    'onyx' => 'Onyx',
+    'sage' => 'Sage',
+    'sol' => 'Sol',
     'verse' => 'Verse',
 ];
 
 $messages = [];
 $errors = [];
+$customVoiceUsed = false;
 
 if (!isset($_SESSION['api_key'])) {
     $_SESSION['api_key'] = '';
@@ -33,7 +38,7 @@ if (!isset($_SESSION['api_key'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $apiKey = trim($_POST['api_key'] ?? '');
     $model = $_POST['model'] ?? '';
-    $voice = $_POST['voice'] ?? '';
+    $voice = trim($_POST['voice'] ?? '');
     $inputText = trim($_POST['text'] ?? '');
     $fileName = trim($_POST['file_name'] ?? '');
     $rememberKey = isset($_POST['remember_key']);
@@ -47,8 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!array_key_exists($model, $models)) {
         $errors[] = 'Выберите корректную модель.';
     }
-    if (!array_key_exists($voice, $voices)) {
-        $errors[] = 'Выберите доступный голос.';
+    if ($voice === '') {
+        $errors[] = 'Укажите голос для генерации.';
+    } elseif (!preg_match('/^[a-z0-9_-]+$/i', $voice)) {
+        $errors[] = 'Голос может содержать только латинские буквы, цифры, дефис и подчёркивание.';
+    } elseif (!array_key_exists($voice, $voices)) {
+        $customVoiceUsed = true;
     }
 
     if ($rememberKey) {
@@ -105,6 +114,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errors[] = 'Не удалось сохранить MP3 файл.';
             } else {
                 $messages[] = 'Аудио успешно сохранено: ' . basename($filePath);
+                if ($customVoiceUsed) {
+                    $messages[] = 'Использован пользовательский голос «' . $voice . '». Убедитесь, что он поддерживается выбранной моделью.';
+                }
             }
         }
     }
@@ -179,12 +191,13 @@ function h(?string $value): string
                     </div>
                     <div class="field">
                         <label for="voice">Голос</label>
-                        <select id="voice" name="voice" required>
-                            <option value="" disabled <?= isset($voice) && $voice === '' ? 'selected' : '' ?>>Выберите голос</option>
+                        <input type="text" id="voice" name="voice" list="voice-options" value="<?= h($voice ?? '') ?>" placeholder="например, alloy" required>
+                        <datalist id="voice-options">
                             <?php foreach ($voices as $value => $label): ?>
-                                <option value="<?= h($value) ?>" <?= (isset($voice) && $voice === $value) ? 'selected' : '' ?>><?= h($label) ?></option>
+                                <option value="<?= h($value) ?>"><?= h($label) ?></option>
                             <?php endforeach; ?>
-                        </select>
+                        </datalist>
+                        <p class="muted">Рекомендуемые голоса: alloy, ballad, echo, fable, onyx, sage, sol, verse. Можно ввести новое значение вручную.</p>
                     </div>
                 </div>
 
