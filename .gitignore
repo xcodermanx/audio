@@ -1,5 +1,14 @@
-__pycache__/
-*.pyc
-.venv/
+# PHP / Project specific
+vendor/
+composer.lock
 .env
-mp3/*.mp3
+output/*.mp3
+output/*.wav
+output/*.ogg
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
