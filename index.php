@@ -198,6 +198,7 @@ function h(?string $value): string
                             <?php endforeach; ?>
                         </datalist>
                         <p class="muted">Рекомендуемые голоса: alloy, ballad, echo, fable, onyx, sage, sol, verse. Можно ввести новое значение вручную.</p>
+                        <p class="muted"><a href="https://platform.openai.com/docs/guides/text-to-speech/voice-options" target="_blank" rel="noopener">Посмотреть актуальный список голосов в документации OpenAI</a>.</p>
                     </div>
                 </div>
 
