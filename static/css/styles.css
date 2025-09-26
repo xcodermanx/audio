@@ -1,0 +1,151 @@
+:root {
+  color-scheme: light dark;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #1d3557, #457b9d);
+  color: #f1faee;
+  min-height: 100vh;
+}
+
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: rgba(241, 250, 238, 0.8);
+}
+
+form {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 2rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="password"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+  color: #f1faee;
+  box-sizing: border-box;
+  margin-bottom: 1.5rem;
+}
+
+textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+button {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 12px;
+  background: #e63946;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(230, 57, 70, 0.35);
+}
+
+.flash {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.flash.error {
+  background: rgba(230, 57, 70, 0.2);
+  border: 1px solid rgba(230, 57, 70, 0.5);
+}
+
+.flash.success {
+  background: rgba(168, 218, 220, 0.2);
+  border: 1px solid rgba(168, 218, 220, 0.5);
+}
+
+.section {
+  margin-top: 2.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 1.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.saved-files {
+  display: grid;
+  gap: 1rem;
+}
+
+.saved-file {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.saved-file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.saved-file a {
+  color: #a8dadc;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.saved-file a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  color: rgba(241, 250, 238, 0.7);
+}
+
+@media (max-width: 768px) {
+  form {
+    padding: 1.5rem;
+  }
+
+  main {
+    padding: 1.5rem 1rem 3rem;
+  }
+}
