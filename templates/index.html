@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenAI TTS Studio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body>
+    <main>
+      <h1>OpenAI TTS Studio</h1>
+      <p class="subtitle">Генерируйте речь из текста с помощью моделей OpenAI</p>
+
+      <form action="{{ url_for('generate_audio') }}" method="post">
+        <label for="api_key">API ключ OpenAI *</label>
+        <input type="password" id="api_key" name="api_key" placeholder="sk-..." required />
+
+        <label for="model">Модель *</label>
+        <select id="model" name="model" required>
+          <option value="">Выберите модель</option>
+          <optgroup label="Рекомендуемые TTS модели">
+            <option value="gpt-4o-mini-tts">gpt-4o-mini-tts</option>
+            <option value="gpt-4o-audio-preview">gpt-4o-audio-preview</option>
+            <option value="gpt-4o-realtime-preview">gpt-4o-realtime-preview</option>
+          </optgroup>
+          <optgroup label="Гибридные модели (текст + аудио)">
+            <option value="gpt-4o-mini-tts@hf">gpt-4o-mini-tts@hf</option>
+            <option value="gpt-4o-realtime-preview-2024-12-17">gpt-4o-realtime-preview-2024-12-17</option>
+            <option value="gpt-4o-mini-tts-2024-12-17">gpt-4o-mini-tts-2024-12-17</option>
+          </optgroup>
+        </select>
+
+        <label for="voice">Голос *</label>
+        <select id="voice" name="voice" required>
+          <option value="">Выберите голос</option>
+          <option value="alloy">Alloy</option>
+          <option value="verse">Verse</option>
+          <option value="aria">Aria</option>
+          <option value="cove">Cove</option>
+          <option value="lola">Lola</option>
+          <option value="haruka">Haruka</option>
+        </select>
+
+        <label for="file_name">Имя файла (без расширения)</label>
+        <input type="text" id="file_name" name="file_name" placeholder="promo-voiceover" />
+
+        <label for="text">Текст для синтеза *</label>
+        <textarea id="text" name="text" placeholder="Введите текст..." required></textarea>
+
+        <button type="submit">Сгенерировать аудио</button>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+      </form>
+
+      <section class="section">
+        <h2>Сохранённые файлы</h2>
+        {% if saved_files %}
+        <div class="saved-files">
+          {% for file in saved_files %}
+          <div class="saved-file">
+            <div class="saved-file-info">
+              <strong>{{ file.name }}</strong>
+              <span>{{ file.size_kb }} КБ · {{ file.created }}</span>
+            </div>
+            <a href="{{ url_for('download_file', filename=file.name) }}">Скачать</a>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <p>Сохранённых файлов пока нет. Сгенерируйте первое аудио!</p>
+        {% endif %}
+      </section>
+
+      <footer>
+        <p>
+          Для работы приложения требуется активный API ключ OpenAI. Ключ используется только для
+          выполнения запроса и не сохраняется на сервере.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
