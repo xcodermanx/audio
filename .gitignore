@@ -1,1 +1,14 @@
+# PHP / Project specific
+vendor/
+composer.lock
+.env
+output/*.mp3
+output/*.wav
+output/*.ogg
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Misc
+*.log
